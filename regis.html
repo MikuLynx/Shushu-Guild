@@ -15,6 +15,7 @@
   <nav>
     <a href="index.html#schedule">Schedule</a>
     <a href="index.html#news">News</a>
+    <a href="season3.html">Roster</a>
     <a href="regis.html" class="cta">Registration Season 3</a>
   </nav>
 </header>
@@ -33,7 +34,16 @@
         <input name="player_id" required maxlength="30" autocomplete="off">
       </label>
       <label>SS2 server
-        <input name="server" required placeholder="e.g. 003" maxlength="10" autocomplete="off">
+        <select name="server" required>
+          <option value="">Select…</option>
+          <option>SS2-001</option>
+          <option>SS2-002</option>
+          <option>SS2-003</option>
+          <option>SS2-004</option>
+          <option>SS2-005</option>
+          <option>SS2-006</option>
+          <option>SS2-007</option>
+        </select>
       </label>
       <label>Contact (Discord / WhatsApp / Telegram)
         <input name="contact" required maxlength="60" autocomplete="off">

@@ -2,7 +2,7 @@
 
 // 1) Google Sheets connection. Paste your Google Apps Script "Web app" URL here
 //    (see the setup steps). Leave "" until it is ready.
-window.SHEET_URL = "";
+window.SHEET_URL = "https://script.google.com/macros/s/AKfycbz5xLINAWLSMASVznMeb_iNVDYXprtyz_mQuJtT5b9WcG0tuLizWwriMGJf5Q0AM_ImKg/exec";;
 
 // 2) Schedule — Han-Wei Clash. Times are in UTC, format "YYYY-MM-DD HH:MM".
 //    Visitors see them converted to their own time zone automatically.

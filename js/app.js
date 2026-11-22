@@ -35,10 +35,16 @@ function sheetGet(params) {
     }));
 }
 // true only when the script clearly answers "exists": true (old script versions simply don't answer)
-async function alreadyRegistered(server, playerId) {
-  try { const d = await sheetGet({ action: 'check', server, player_id: playerId }); return !!d && d.exists === true; }
+async function alreadyRegistered(ign) {
+  try { const d = await sheetGet({ action: 'check', ign }); return !!d && d.exists === true; }
   catch { return false; }
 }
+
+// Country: letters only (any alphabet), plus space . ' -   — other characters are removed as you type
+const NOT_LETTER = /[^\p{L}\p{M}\s.'’-]/gu;
+document.querySelectorAll('input[data-letters]').forEach(i => i.addEventListener('input', () => {
+  const v = i.value.replace(NOT_LETTER, ''); if (v !== i.value) i.value = v;
+}));
 
 if (form) form.addEventListener('submit', async e => {
   e.preventDefault();
@@ -48,13 +54,19 @@ if (form) form.addEventListener('submit', async e => {
   });
   status.className = '';
   if (!ok) { status.textContent = 'Please fill in all required fields.'; status.classList.add('err'); return; }
+  const country = form.elements.country.value.trim();
+  if (country.length < 2 || NOT_LETTER.test(country)) {
+    NOT_LETTER.lastIndex = 0; form.elements.country.classList.add('bad');
+    status.textContent = 'Please enter a valid country name (letters only).'; status.classList.add('err'); return;
+  }
+  NOT_LETTER.lastIndex = 0;
   if (!window.SHEET_URL) {
     status.textContent = 'Form not connected yet — set SHEET_URL in js/config.js.'; status.classList.add('err'); return;
   }
   const btn = form.querySelector('button'); btn.disabled = true;
   status.textContent = 'Checking…';
-  if (await alreadyRegistered(form.elements.server.value, form.elements.player_id.value.trim())) {
-    status.textContent = 'This player is already registered. If there is any mistake, please contact the administrator on Discord: ' + ADMIN_DISCORD + '.';
+  if (await alreadyRegistered(form.elements.ign.value.trim())) {
+    status.textContent = 'This in-game name is already registered. If there is any mistake, please contact the administrator on Discord: ' + ADMIN_DISCORD + '.';
     status.className = 'err'; btn.disabled = false; return;
   }
   try {

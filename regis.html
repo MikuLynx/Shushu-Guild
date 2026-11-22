@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Registration Season 3 — ShuShu Guild</title>
+<meta name="description" content="Register for ShuShu Guild Season 3.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="nav">
+  <a class="brand" href="index.html">ShuShu <span>Guild</span></a>
+  <button class="burger" aria-label="Menu" onclick="document.body.classList.toggle('open')">☰</button>
+  <nav>
+    <a href="index.html#schedule">Schedule</a>
+    <a href="index.html#news">News</a>
+    <a href="regis.html" class="cta">Registration Season 3</a>
+  </nav>
+</header>
+
+<main>
+  <div class="page-hero"></div>
+
+  <section id="registration" class="panel">
+    <h2>Registration — Season 3</h2>
+    <p class="sub">Fill in the form below. An officer will contact you.</p>
+    <form id="reg-form" novalidate>
+      <label>In-game name
+        <input name="ign" required maxlength="40" autocomplete="off">
+      </label>
+      <label>Player ID
+        <input name="player_id" required maxlength="30" autocomplete="off">
+      </label>
+      <label>SS2 server
+        <input name="server" required placeholder="e.g. 003" maxlength="10" autocomplete="off">
+      </label>
+      <label>Contact (Discord / WhatsApp / Telegram)
+        <input name="contact" required maxlength="60" autocomplete="off">
+      </label>
+      <label>Country / time zone
+        <input name="timezone" required maxlength="40" autocomplete="off">
+      </label>
+      <label>Role
+        <select name="role" required>
+          <option value="">Select…</option>
+          <option>Shieldman</option>
+          <option>Archer</option>
+          <option>Cavalry</option>
+        </select>
+      </label>
+      <label class="wide">Anything else we should know?
+        <textarea name="notes" rows="3" maxlength="500"></textarea>
+      </label>
+      <button type="submit">Submit registration</button>
+      <p id="reg-status" role="status"></p>
+    </form>
+  </section>
+</main>
+
+<footer>© <span id="yr"></span> ShuShu Guild · Stronger Alliance, Greater Victory</footer>
+
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

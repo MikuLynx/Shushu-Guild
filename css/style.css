@@ -39,3 +39,23 @@ footer{text-align:center;padding:28px 16px;color:#7f9bc8;border-top:1px solid rg
   body.open nav{display:flex}
   form{grid-template-columns:1fr}
 }
+
+.page-hero{margin-top:60px;height:clamp(140px,22vw,260px);background:url(../assets/bg.jpg) center top/cover no-repeat;position:relative}
+.page-hero::after{content:"";position:absolute;inset:auto 0 0 0;height:40%;background:linear-gradient(transparent,var(--bg))}
+.fb-feed{display:flex;justify-content:center;min-height:120px;border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:12px;overflow:hidden}
+.fb-feed iframe{border:0;max-width:100%;background:#fff;border-radius:6px}
+.fb-link{text-align:center;margin:12px 0 0}
+.fb-link a{color:var(--gold)}
+
+.news-list{display:grid;gap:14px;margin-bottom:28px}
+.news-card{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:16px 18px}
+.news-card time{font-size:.8rem;color:var(--ice);letter-spacing:.05em}
+.news-card h3{margin:2px 0 6px;color:var(--gold);font-size:1.15rem}
+.news-card p{margin:0 0 10px}
+.news-card .more{background:none;border:1px solid var(--line);color:var(--gold);border-radius:6px;padding:6px 14px;font:inherit;font-weight:700;cursor:pointer}
+.news-card .more:hover{background:rgba(244,201,93,.15)}
+.news-body{margin-top:12px;padding-top:12px;border-top:1px solid rgba(143,211,255,.2)}
+.news-body[hidden]{display:none}
+.news-body p{white-space:pre-line}
+.news-body a{color:var(--gold)}
+.fb-title{margin:0 0 12px;color:var(--ice);font-size:1rem;font-weight:700}

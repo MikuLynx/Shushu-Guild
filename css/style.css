@@ -103,3 +103,6 @@ footer{text-align:center;padding:28px 16px;color:#7f9bc8;border-top:1px solid rg
 .r-srv{font-size:.78rem;color:var(--ice);border:1px solid rgba(143,211,255,.3);border-radius:6px;padding:1px 6px}
 .r-empty{grid-column:1/-1;color:var(--ice);text-align:center;padding:24px}
 @media(max-width:640px){.r-total{text-align:left;width:100%}.r-pills{justify-content:flex-start}}
+
+.admin-note{margin:16px 0 0;padding:12px 16px;border:1px dashed var(--line);border-radius:8px;color:var(--ice);text-align:center}
+.admin-note strong,footer strong{color:var(--gold)}

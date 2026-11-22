@@ -16,8 +16,30 @@ const fmt = new Intl.DateTimeFormat(undefined, {dateStyle:'medium', timeStyle:'s
 }
 
 // Registration
+const ADMIN_DISCORD = window.ADMIN_DISCORD || 'mikulynx';
 const form = document.getElementById('reg-form');
 const status = document.getElementById('reg-status');
+
+// GET helper for the Google script (fetch first, JSONP fallback if the browser blocks the cross-site read)
+function sheetGet(params) {
+  const q = new URLSearchParams(params); q.set('_', Date.now());
+  const url = window.SHEET_URL + (window.SHEET_URL.includes('?') ? '&' : '?') + q;
+  return fetch(url, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .catch(() => new Promise((resolve, reject) => {
+      const cb = '__reg_' + Date.now(), s = document.createElement('script');
+      const t = setTimeout(() => { done(); reject(new Error('timeout')); }, 15000);
+      function done() { clearTimeout(t); delete window[cb]; s.remove(); }
+      window[cb] = d => { done(); resolve(d); };
+      s.onerror = () => { done(); reject(new Error('load')); };
+      s.src = url + '&callback=' + cb; document.head.appendChild(s);
+    }));
+}
+// true only when the script clearly answers "exists": true (old script versions simply don't answer)
+async function alreadyRegistered(server, playerId) {
+  try { const d = await sheetGet({ action: 'check', server, player_id: playerId }); return !!d && d.exists === true; }
+  catch { return false; }
+}
+
 if (form) form.addEventListener('submit', async e => {
   e.preventDefault();
   let ok = true;
@@ -30,6 +52,11 @@ if (form) form.addEventListener('submit', async e => {
     status.textContent = 'Form not connected yet — set SHEET_URL in js/config.js.'; status.classList.add('err'); return;
   }
   const btn = form.querySelector('button'); btn.disabled = true;
+  status.textContent = 'Checking…';
+  if (await alreadyRegistered(form.elements.server.value, form.elements.player_id.value.trim())) {
+    status.textContent = 'This player is already registered. If there is any mistake, please contact the administrator on Discord: ' + ADMIN_DISCORD + '.';
+    status.className = 'err'; btn.disabled = false; return;
+  }
   try {
     // Apps Script web apps don't send CORS headers for reading, so use no-cors:
     // the data is delivered, but the response can't be read (success = no network error).
@@ -37,9 +64,9 @@ if (form) form.addEventListener('submit', async e => {
       method: 'POST', mode: 'no-cors',
       body: new URLSearchParams(new FormData(form))
     });
-    form.reset(); status.textContent = 'Registration sent! We will contact you soon.'; status.classList.add('ok');
+    form.reset(); status.textContent = 'Registration sent! We will contact you soon. If there is any mistake, contact the administrator on Discord: ' + ADMIN_DISCORD + '.'; status.className = 'ok';
   } catch {
-    status.textContent = 'Could not send. Please try again or contact an officer.'; status.classList.add('err');
+    status.textContent = 'Could not send. Please try again or contact the administrator on Discord: ' + ADMIN_DISCORD + '.'; status.className = 'err';
   }
   btn.disabled = false;
 });

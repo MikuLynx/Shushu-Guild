@@ -59,7 +59,7 @@ if (feed) {
 // News cards with Details button
 const list = document.getElementById('news-list');
 if (list) {
-  (window.NEWS || []).forEach((n, i) => {
+  const render = items => items.forEach((n, i) => {
     const card = document.createElement('article'); card.className = 'news-card';
     const t = document.createElement('time'); t.textContent = n.date || '';
     const h = document.createElement('h3'); h.textContent = n.title || '';
@@ -77,5 +77,12 @@ if (list) {
       btn.setAttribute('aria-expanded', String(open)); btn.textContent = open ? 'Hide ▴' : 'Details ▾';
     });
     card.append(t, h, p, btn, body); list.appendChild(card);
+  });
+  // manual posts (js/news.js) + automatic posts (js/news-auto.json, updated by GitHub Action)
+  fetch('js/news-auto.json').then(r => r.ok ? r.json() : []).catch(() => []).then(auto => {
+    const manual = window.NEWS || [];
+    const seen = new Set(manual.map(n => n.link).filter(Boolean));
+    render(manual.concat((Array.isArray(auto) ? auto : []).filter(n => !n.link || !seen.has(n.link)))
+      .sort((a, b) => (b.date || '').localeCompare(a.date || '')));
   });
 }

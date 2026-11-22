@@ -83,23 +83,28 @@ if (form) form.addEventListener('submit', async e => {
   btn.disabled = false;
 });
 
-// News: official Facebook page timeline (updates automatically, no redeploy needed)
-const feed = document.getElementById('fb-feed');
-if (feed) {
-  const w = Math.max(180, Math.min(500, feed.clientWidth - 24));
-  const src = 'https://www.facebook.com/plugins/page.php?href=' + encodeURIComponent(feed.dataset.page) +
-    '&tabs=timeline&width=' + w + '&height=700&small_header=true&adapt_container_width=false&hide_cover=false&show_facepile=false';
-  const f = document.createElement('iframe');
-  f.src = src; f.width = w; f.height = 700; f.loading = 'lazy'; f.title = 'Conquest of Nine Kingdoms on Facebook';
-  f.allow = 'encrypted-media';
-  feed.appendChild(f);
-}
-
-// News cards with Details button
+// News cards — posts come from js/news-auto.json (kept up to date by the GitHub Action)
 const list = document.getElementById('news-list');
 if (list) {
+  const safeImg = s => typeof s === 'string' && /^assets\/news\/[\w.-]+\.(?:jpe?g|png|webp|gif)$/i.test(s);
+  // The page builds the player URL itself, from an allow-list, so feed data can never inject another site.
+  const videoSrc = v => {
+    if (!v) return '';
+    if (v.type === 'youtube' && /^[\w-]{11}$/.test(v.id || ''))
+      return 'https://www.youtube-nocookie.com/embed/' + v.id + '?rel=0';
+    if (v.type === 'facebook' && /^https:\/\/www\.facebook\.com\//.test(v.href || ''))
+      return 'https://www.facebook.com/plugins/video.php?show_text=false&href=' + encodeURIComponent(v.href);
+    return '';
+  };
   const render = items => items.forEach((n, i) => {
     const card = document.createElement('article'); card.className = 'news-card';
+    if (safeImg(n.image)) {
+      card.classList.add('has-img');
+      const img = document.createElement('img');
+      img.className = 'news-img'; img.src = n.image; img.alt = ''; img.loading = 'lazy';
+      card.appendChild(img);
+    }
+    const main = document.createElement('div'); main.className = 'news-main';
     const t = document.createElement('time'); t.textContent = n.date || '';
     const h = document.createElement('h3'); h.textContent = n.title || '';
     const p = document.createElement('p'); p.textContent = n.summary || '';
@@ -111,13 +116,24 @@ if (list) {
       const a = document.createElement('a'); a.href = n.link; a.target = '_blank'; a.rel = 'noopener'; a.textContent = 'Read on Facebook ↗';
       body.appendChild(a);
     }
+    const vsrc = videoSrc(n.video); let videoAdded = false;
     btn.addEventListener('click', () => {
       const open = body.hidden; body.hidden = !open;
+      if (open && vsrc && !videoAdded) {            // load the player only when someone asks for it
+        videoAdded = true;
+        const box = document.createElement('div');
+        box.className = 'news-video' + (/\/reels?\//.test((n.video && n.video.href) || '') ? ' portrait' : '');
+        const f = document.createElement('iframe');
+        f.src = vsrc; f.title = 'Video: ' + (n.title || ''); f.loading = 'lazy'; f.allowFullscreen = true;
+        f.allow = 'autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share';
+        f.referrerPolicy = 'strict-origin-when-cross-origin';
+        box.appendChild(f); body.prepend(box);
+      }
       btn.setAttribute('aria-expanded', String(open)); btn.textContent = open ? 'Hide ▴' : 'Details ▾';
     });
-    card.append(t, h, p, btn, body); list.appendChild(card);
+    main.append(t, h, p, btn, body); card.appendChild(main); list.appendChild(card);
   });
-  // manual posts (js/news.js) + automatic posts (js/news-auto.json, updated by GitHub Action)
+  // manual posts (window.NEWS, optional) + automatic posts
   fetch('js/news-auto.json').then(r => r.ok ? r.json() : []).catch(() => []).then(auto => {
     const manual = window.NEWS || [];
     const seen = new Set(manual.map(n => n.link).filter(Boolean));

@@ -52,6 +52,24 @@ document.querySelectorAll('input[data-letters]').forEach(i => i.addEventListener
   const v = i.value.replace(NOT_LETTER, ''); if (v !== i.value) i.value = v;
 }));
 
+// Verify the registration server is reachable (ad blockers / privacy extensions can block it).
+// The form stays locked until the check passes.
+const notice = document.getElementById('blocker-notice');
+function setFormEnabled(on) {
+  if (!form) return;
+  form.querySelectorAll('input, select, textarea, button').forEach(el => { el.disabled = !on; });
+  form.classList.toggle('locked', !on);
+}
+async function verifyConnection() {
+  if (!form || !window.SHEET_URL) return;
+  setFormEnabled(false); if (notice) notice.hidden = true;
+  let ok = true;
+  try { ok = !!(await sheetGet({ action: 'check', ign: '' })); } catch { ok = false; }
+  if (ok) setFormEnabled(true); else if (notice) notice.hidden = false;
+}
+if (notice) document.getElementById('blocker-recheck').addEventListener('click', verifyConnection);
+verifyConnection();
+
 if (form) form.addEventListener('submit', async e => {
   e.preventDefault();
   let ok = true;

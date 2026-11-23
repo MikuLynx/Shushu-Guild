@@ -28,6 +28,11 @@
   <section id="registration" class="panel">
     <h2>Registration — Season 3</h2>
     <p class="sub">Fill in the form below. An officer will contact you.</p>
+    <div id="blocker-notice" class="blocker-notice" role="alert" hidden>
+      <strong>We can't reach the registration server.</strong>
+      <p>If you use an ad blocker or privacy extension (uBlock, AdBlock, Brave Shields…), please <b>turn it off for this site</b>, then press the button below. Otherwise, please try again in a moment.</p>
+      <button type="button" id="blocker-recheck">I've turned it off — check again</button>
+    </div>
     <form id="reg-form" novalidate>
       <label>In-game name
         <input name="ign" required maxlength="40" autocomplete="off">

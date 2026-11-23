@@ -133,3 +133,11 @@ footer{text-align:center;padding:28px 16px;color:#7f9bc8;border-top:1px solid rg
 .register-btn.is-full{background:linear-gradient(180deg,#d9dde8,#9aa4bb);border-color:#e6e9f2;box-shadow:0 0 0 1px rgba(143,211,255,.5)}
 @media(prefers-reduced-motion:no-preference){.register-btn:not(.is-full){animation:regpulse 2.6s ease-in-out infinite}}
 @keyframes regpulse{0%,100%{box-shadow:0 0 0 1px rgba(201,162,74,.8),0 8px 28px rgba(255,200,70,.30),inset 0 2px 0 rgba(255,255,255,.6)}50%{box-shadow:0 0 0 1px rgba(201,162,74,.8),0 8px 38px rgba(255,200,70,.6),inset 0 2px 0 rgba(255,255,255,.6)}}
+
+/* connection / ad-blocker notice */
+.blocker-notice{margin:0 0 16px;padding:16px 18px;border:1px solid #ff8b8b;border-radius:10px;background:rgba(120,20,30,.35)}
+.blocker-notice[hidden]{display:none}
+.blocker-notice strong{color:#ffb4b4}
+.blocker-notice p{margin:6px 0 12px}
+.blocker-notice button{font:inherit;font-weight:800;padding:9px 16px;border-radius:8px;border:1px solid var(--line);color:#2a1c00;background:linear-gradient(#ffe08a,#e0a830);cursor:pointer}
+form.locked{opacity:.5}

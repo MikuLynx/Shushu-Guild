@@ -67,7 +67,7 @@
       setStatus('', false);
       render();
     }).catch(() => {
-      if (!state.loaded) setStatus('Could not load the roster. Please try again later.', true);
+      if (!state.loaded) setStatus('Could not load the roster. If you use an ad blocker or privacy extension, turn it off for this site and reload; otherwise try again later.', true);
     });
   }
   function setStatus(msg, err) {

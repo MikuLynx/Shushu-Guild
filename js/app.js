@@ -1,3 +1,7 @@
+// Registration switch (js/config.js: window.REGISTRATION_OPEN = false) -> nav button says "Registration Full"
+if (window.REGISTRATION_OPEN === false) {
+  document.querySelectorAll('nav a.cta').forEach(a => { a.textContent = 'Registration Full'; a.setAttribute('href', 'regis_full.html'); });
+}
 const yr=document.getElementById('yr'); if(yr) yr.textContent = new Date().getFullYear();
 
 // Schedule

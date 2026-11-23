@@ -2,7 +2,7 @@
 
 // REGISTRATION SWITCH:  true = registration form is open
 //                       false = visitors see the "Registration is full" page (regis_full.html)
-window.REGISTRATION_OPEN = true;
+window.REGISTRATION_OPEN = false;
 
 // 1) Google Sheets connection. Paste your Google Apps Script "Web app" URL here
 //    (see the setup steps). Leave "" until it is ready.

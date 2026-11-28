@@ -141,3 +141,27 @@ footer{text-align:center;padding:28px 16px;color:#7f9bc8;border-top:1px solid rg
 .blocker-notice p{margin:6px 0 12px}
 .blocker-notice button{font:inherit;font-weight:800;padding:9px 16px;border-radius:8px;border:1px solid var(--line);color:#2a1c00;background:linear-gradient(#ffe08a,#e0a830);cursor:pointer}
 form.locked{opacity:.5}
+
+/* ---- Season phases ---- */
+.phase-title{margin:34px 0 4px;font-size:1.4rem;color:var(--gold)}
+.phases{display:grid;gap:10px;margin-top:12px}
+.phase{border:1px solid var(--line);border-radius:10px;background:var(--panel);overflow:hidden}
+.phase.now{border-color:var(--gold);box-shadow:0 0 18px rgba(244,201,93,.18)}
+.phase.ended{opacity:.6}
+.phase summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:12px 14px}
+.phase summary::-webkit-details-marker{display:none}
+.ph-n{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#10163a;background:linear-gradient(#ffe29a,#d9a73a)}
+.ph-head{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}
+.ph-name{font-weight:700;color:var(--gold);font-size:1.05rem}
+.ph-when{font-size:.85rem;color:var(--ice);overflow-wrap:anywhere}
+.ph-chip{flex:none;font-size:.75rem;padding:3px 10px;border-radius:999px;border:1px solid var(--line);color:var(--ice)}
+.phase.now .ph-chip{background:var(--gold);color:#10163a;border-color:var(--gold);font-weight:700}
+.ph-body{display:grid;grid-template-columns:1fr 1fr;gap:6px 24px;padding:4px 16px 16px;border-top:1px solid rgba(143,211,255,.15)}
+.ph-col h4{margin:12px 0 6px;color:var(--ice);font-size:.9rem;text-transform:uppercase;letter-spacing:.05em}
+.ph-col ul{margin:0;padding-left:18px}.ph-col li{margin:3px 0}
+.ph-utc{margin:10px 0 0;font-size:.8rem;opacity:.75}
+.ph-ch{display:grid;grid-template-columns:72px 1fr;gap:2px 10px;padding:8px 10px;margin:6px 0;border-radius:8px;background:rgba(143,211,255,.07);border-left:3px solid var(--ice)}
+.ph-ch.alliance{border-left-color:#9be39b}.ph-ch.server{border-left-color:var(--gold)}
+.ph-ct{font-size:.75rem;text-transform:uppercase;opacity:.8;grid-row:span 2;align-self:center}
+.ph-reward{color:var(--gold);font-weight:600;font-size:.9rem}
+@media(max-width:640px){.ph-body{grid-template-columns:1fr}.ph-ch{grid-template-columns:62px 1fr}}
